@@ -69,11 +69,13 @@ household-intelligence/
     contracts.md
     live-calendar.md
     live-home-assistant.md
+    live-telegram.md
     mvp.md
     next-phase.md
     product.md
     runtime-config.md
     scoring.md
+    telegram-setup-notes.md
   scripts/
     contract-smoke.js
     demo-run.js
@@ -108,7 +110,7 @@ Not built yet:
 - richer calendar semantics (attendees, travel, leave-by inference)
 - deeper learning from feedback beyond dismissal suppression
 - real scheduler wiring
-- real Telegram bot plumbing
+- inbound Telegram bot handling and command routing
 - real Home Assistant publish API calls
 
 ## Architecture principles
@@ -199,6 +201,12 @@ npm run smoke:ha
 npm run smoke:calendar
 ```
 
+### Run Telegram delivery smoke check
+
+```bash
+npm run smoke:telegram
+```
+
 ### Run output quality checks
 
 ```bash
@@ -216,10 +224,10 @@ node -e "const c=require('./packages/contracts/src'); console.log(c.createInputS
 
 The right next build order is:
 
-1. live adapters for real data
-2. real Telegram delivery wiring
-3. real Home Assistant publish wiring
-4. richer feedback learning
+1. real Home Assistant publish wiring
+2. inbound Telegram command/feedback handling
+3. richer feedback learning
+4. proper sqlite runtime
 5. multi-household hardening
 
 ## Why this could be sellable
