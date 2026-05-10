@@ -40,3 +40,19 @@ Make one household say: this actually helps me decide what to do.
 - at least 1 action per day marked useful or done
 - output quality feels right more than 60 percent of the time
 - user reports friction avoided within week 1
+
+## Degraded mode rule
+
+If major signal sources are missing, the system should still produce a best-effort result instead of failing silently.
+
+But it must say so plainly.
+
+Bad degraded mode:
+- fake certainty
+- pretending nothing is missing
+- dumping generic filler
+
+Good degraded mode:
+- admit missing sources
+- still suggest one concrete useful action if possible
+- lower confidence implicitly through ranking/suppression

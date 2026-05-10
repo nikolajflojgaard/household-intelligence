@@ -52,9 +52,10 @@ If it does not change behavior, it is not a product.
 ```text
 household-intelligence/
   apps/
-    dashboard/          # optional thin UI later
+    dashboard/          # thin local model surface
     ha-bridge/          # Home Assistant-facing publisher
     telegram-worker/    # scheduled delivery and feedback handling
+  fixtures/             # test scenarios for output quality
   packages/
     adapters/           # input connectors + normalization
     briefs/             # Telegram / HA / JSON renderers
@@ -62,19 +63,25 @@ household-intelligence/
     engine/             # scoring, ranking, dedupe, explanations
     storage/            # runs, snapshots, feedback persistence
   docs/
+    onboarding/
+      first-beta-household.md
     architecture.md
     contracts.md
     mvp.md
     product.md
     scoring.md
   scripts/
+    contract-smoke.js
     demo-run.js
+    explanation-regression.js
+    full-smoke.js
+    quality-fixtures.js
   TASKS.md
 ```
 
 ## Current status
 
-This repo is now a real starter structure, not just an idea dump.
+This repo is now a real early product prototype.
 
 Already in place:
 
@@ -85,9 +92,11 @@ Already in place:
 - sample source fixtures and normalized snapshot builder
 - candidate generators for tasks, leave-by pressure, schedule conflicts, home anomalies, and energy opportunities
 - weighted scoring, confidence modifier, dedupe, and quiet-hours suppression
+- degraded-mode fallback behavior when signals are missing
 - brief composers for Telegram, JSON, and Home Assistant payloads
 - JSON-backed run/feedback persistence with SQLite schema ready
 - demo flows for dashboard, Telegram worker, and Home Assistant package generation
+- quality fixtures and explanation regression checks
 - backlog with 50 implementation tasks
 
 Not built yet:
@@ -106,6 +115,7 @@ Not built yet:
 - every recommendation must explain itself
 - feedback is mandatory, not optional
 - all surfaces consume the same engine result
+- degraded mode must be explicit, not fake certainty
 
 ## Core data contracts
 
@@ -173,6 +183,13 @@ npm run demo
 npm test
 ```
 
+### Run output quality checks
+
+```bash
+node scripts/quality-fixtures.js
+node scripts/explanation-regression.js
+```
+
 ### Validate contracts quickly
 
 ```bash
@@ -183,14 +200,11 @@ node -e "const c=require('./packages/contracts/src'); console.log(c.createInputS
 
 The right next build order is:
 
-1. contracts
-2. normalized snapshot input
-3. candidate generation
-4. scoring + ranking + dedupe
-5. daily brief renderer
-6. Telegram delivery
-7. Home Assistant publish layer
-8. feedback loop
+1. live adapters for real data
+2. real Telegram delivery wiring
+3. real Home Assistant publish wiring
+4. richer feedback learning
+5. multi-household hardening
 
 ## Why this could be sellable
 
@@ -209,12 +223,7 @@ The moat is trust:
 
 See `TASKS.md` for the implementation backlog.
 
-The first concrete code slice should finish:
-
-- contracts
-- snapshot normalization
-- candidate generators for chores/calendar/conflicts/energy
-- first deterministic ranking pass
+The next concrete code slice should finish real integrations, not more theory.
 
 ## Reality check
 

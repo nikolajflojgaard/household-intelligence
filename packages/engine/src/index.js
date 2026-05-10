@@ -40,13 +40,41 @@ function finalScore({ urgency = 0, impact = 0, timeSensitivity = 0, agency = 0, 
   return Math.max(0, Math.round(base * confidenceModifier(confidence)));
 }
 
+function sentence(value) {
+  const text = String(value || '').trim();
+  if (!text) return '';
+  return /[.!?]$/.test(text) ? text : `${text}.`;
+}
+
+function explainWhyNow(category, reason) {
+  const base = sentence(reason);
+  if (category === 'family-logistics') return base || 'A visible household conflict is forming right now.';
+  if (category === 'calendar') return base || 'Timing has started to matter, so this is no longer abstract.';
+  if (category === 'energy') return base || 'The current energy window is unusually favorable or unusually dumb to ignore.';
+  if (category === 'home') return base || 'The house is already telling you something is off.';
+  return base || 'This is in the best action window it is likely to get today.';
+}
+
+function explainConsequence(category, summary) {
+  const base = sentence(summary);
+  if (category === 'family-logistics') return 'The day gets messier fast if this is left unresolved.';
+  if (category === 'calendar') return 'You are likely to become rushed, late, or forced into a worse tradeoff.';
+  if (category === 'energy') return 'You burn money or miss an easy optimization window for no real reason.';
+  if (category === 'home') return 'Minor home friction has a bad habit of turning into bigger annoyance later.';
+  return base || 'This will keep stealing attention later if you let it sit.';
+}
+
 function buildAction(input) {
   const score = finalScore(input.scoreParts || {});
+  const reasons = (input.reasons || []).map(sentence).filter(Boolean);
   return createTopAction({
     ...input,
+    reasons,
     score,
     urgency: input.urgency || urgencyLabel(score),
-    confidence: input.scoreParts?.confidence ?? input.confidence ?? 0.8
+    confidence: input.scoreParts?.confidence ?? input.confidence ?? 0.8,
+    whyNow: sentence(input.whyNow) || explainWhyNow(input.category, reasons[0]),
+    consequenceIfIgnored: sentence(input.consequenceIfIgnored) || explainConsequence(input.category, input.summary)
   });
 }
 
@@ -70,8 +98,8 @@ function overdueChoreCandidates(snapshot) {
           lateMinutes > 90 ? 'Delay is compounding into the rest of the day' : 'It is easier to clear now than later'
         ],
         sourceSignals: ['task-overdue', chore.id],
-        whyNow: 'This is already late, so waiting does not improve anything.',
-        consequenceIfIgnored: 'It keeps stealing attention and makes the later schedule messier.',
+        whyNow: 'This is already late, so waiting does not improve anything',
+        consequenceIfIgnored: 'It keeps stealing attention and makes the later schedule messier',
         actions: [
           { kind: 'done', label: 'Mark done' },
           { kind: 'snooze', label: 'Snooze' }
@@ -107,8 +135,8 @@ function dueTodayChoreCandidates(snapshot) {
           'Small tasks are cheapest when done before schedule pressure rises'
         ],
         sourceSignals: ['task-due-today', chore.id],
-        whyNow: dueMinutes <= 120 ? 'The task is entering its last safe execution window.' : 'You still have room to handle this before it becomes annoying.',
-        consequenceIfIgnored: 'It is likely to collide with later household load.',
+        whyNow: dueMinutes <= 120 ? 'The task is entering its last safe execution window' : 'You still have room to handle this before it becomes annoying',
+        consequenceIfIgnored: 'It is likely to collide with later household load',
         actions: [
           { kind: 'done', label: 'Mark done' },
           { kind: 'snooze', label: 'Snooze' }
@@ -144,8 +172,8 @@ function leaveByCandidates(snapshot) {
           'Once this window is missed, downstream timing gets worse fast'
         ],
         sourceSignals: ['calendar-leave-by', event.id],
-        whyNow: 'Travel and preparation time have already started to matter.',
-        consequenceIfIgnored: 'The event risks turning into a rushed or late arrival.',
+        whyNow: 'Travel and preparation time have already started to matter',
+        consequenceIfIgnored: 'The event risks turning into a rushed or late arrival',
         actions: [
           { kind: 'details', label: 'View details' },
           { kind: 'reschedule', label: 'Reschedule' }
@@ -188,8 +216,8 @@ function scheduleConflictCandidates(snapshot) {
           `${shortage} minutes of timing slack are missing`
         ],
         sourceSignals: ['calendar-conflict', current.id, next.id],
-        whyNow: 'This conflict is already visible and will not fix itself later.',
-        consequenceIfIgnored: 'One of the commitments will become rushed, late, or dropped.',
+        whyNow: 'This conflict is already visible and will not fix itself later',
+        consequenceIfIgnored: 'One of the commitments will become rushed, late, or dropped',
         actions: [
           { kind: 'details', label: 'Inspect conflict' },
           { kind: 'reschedule', label: 'Reschedule' }
@@ -221,8 +249,8 @@ function homeAnomalyCandidates(snapshot) {
         'This is exactly the kind of thing that becomes background friction if ignored'
       ],
       sourceSignals: ['home-anomaly', anomaly.id, anomaly.type],
-      whyNow: severe ? 'The home is already signaling an issue, not just a possibility.' : 'This is cheap to verify before it turns into noise later.',
-      consequenceIfIgnored: 'It can turn into bigger household friction or wasted attention later.',
+      whyNow: severe ? 'The home is already signaling an issue, not just a possibility' : 'This is cheap to verify before it turns into noise later',
+      consequenceIfIgnored: 'It can turn into bigger household friction or wasted attention later',
       actions: [
         { kind: 'details', label: 'Inspect' },
         { kind: 'done', label: 'Handled' }
@@ -256,8 +284,8 @@ function energyOpportunityCandidates(snapshot) {
         'This is a low-regret slot for energy-hungry chores'
       ],
       sourceSignals: ['energy-cheap', 'solar-surplus'],
-      whyNow: 'The home can absorb useful work cheaply right now.',
-      consequenceIfIgnored: 'The same task may cost more or compete with a busier house later.',
+      whyNow: 'The home can absorb useful work cheaply right now',
+      consequenceIfIgnored: 'The same task may cost more or compete with a busier house later',
       actions: [
         { kind: 'details', label: 'Why now?' },
         { kind: 'done', label: 'Used window' }
@@ -283,8 +311,8 @@ function energyOpportunityCandidates(snapshot) {
         'This is a clean opportunity to avoid dumb timing'
       ],
       sourceSignals: ['energy-expensive'],
-      whyNow: 'The penalty for doing flexible work right now is immediate.',
-      consequenceIfIgnored: 'You spend more for no real gain.',
+      whyNow: 'The penalty for doing flexible work right now is immediate',
+      consequenceIfIgnored: 'You spend more for no real gain',
       actions: [
         { kind: 'snooze', label: 'Wait for cheaper slot' }
       ],
@@ -298,6 +326,40 @@ function energyOpportunityCandidates(snapshot) {
     }));
   }
 
+  return actions;
+}
+
+function degradedModeCandidates(snapshot) {
+  const actions = [];
+  if (!snapshot.calendarEvents.length && !snapshot.homeState && !snapshot.energyState) {
+    const fallbackChore = snapshot.chores.find((task) => task.status !== 'done');
+    if (fallbackChore) {
+      actions.push(buildAction({
+        id: `fallback:${fallbackChore.id}`,
+        title: fallbackChore.title,
+        summary: 'Most signal sources are missing, so this is a best-effort fallback priority.',
+        category: fallbackChore.category || 'maintenance',
+        ownerId: fallbackChore.assigneeId,
+        reasons: [
+          'Calendar, home, and energy sources are missing',
+          'This is still a concrete task that can move the day forward'
+        ],
+        sourceSignals: ['degraded-mode', fallbackChore.id],
+        whyNow: 'Even in degraded mode, one real completed task is better than blank output',
+        consequenceIfIgnored: 'You lose the chance to be useful just because some signals are missing',
+        actions: [
+          { kind: 'done', label: 'Mark done' }
+        ],
+        scoreParts: {
+          urgency: 20,
+          impact: 16 + priorityWeight(fallbackChore.priority),
+          timeSensitivity: 8,
+          agency: 9,
+          confidence: 0.68
+        }
+      }));
+    }
+  }
   return actions;
 }
 
@@ -335,12 +397,12 @@ function applySuppression(actions, snapshot, dismissalState = {}) {
 
   for (const action of actions) {
     const dismissals = dismissalState[action.id]?.dismissedCount || 0;
-    const recentlyDismissed = dismissals >= 2;
     const lowConfidence = action.confidence < 0.7;
     const nonUrgent = action.urgency !== 'high';
     const quietSuppressed = quiet && nonUrgent && action.category !== 'home';
+    const dismissalSuppressed = dismissals >= 2 && nonUrgent;
 
-    if ((lowConfidence && nonUrgent) || recentlyDismissed || quietSuppressed) {
+    if ((lowConfidence && nonUrgent) || dismissalSuppressed || quietSuppressed) {
       suppressedCount += 1;
       continue;
     }
@@ -358,23 +420,27 @@ function buildCandidateSet(snapshot) {
     ...overdueChoreCandidates(snapshot),
     ...dueTodayChoreCandidates(snapshot),
     ...homeAnomalyCandidates(snapshot),
-    ...energyOpportunityCandidates(snapshot)
+    ...energyOpportunityCandidates(snapshot),
+    ...degradedModeCandidates(snapshot)
   ]).sort((a, b) => b.score - a.score);
 }
 
 function buildTopThree(snapshot, options = {}) {
   const allCandidates = buildCandidateSet(snapshot);
   const { kept, suppressedCount } = applySuppression(allCandidates, snapshot, options.dismissalState || {});
+  const actions = kept.slice(0, 3);
+  const missingSources = [
+    snapshot.weather?.condition ? null : 'weather',
+    snapshot.energyState?.priceLevel ? null : 'energy',
+    snapshot.homeState ? null : 'home',
+    snapshot.calendarEvents?.length ? null : 'calendar'
+  ].filter(Boolean);
 
   return createTopThreeResult({
     generatedAt: snapshot.generatedAt,
-    actions: kept.slice(0, 3),
+    actions,
     suppressedCount: suppressedCount + Math.max(0, kept.length - 3),
-    missingSources: [
-      snapshot.weather?.condition ? null : 'weather',
-      snapshot.energyState?.priceLevel ? null : 'energy',
-      snapshot.homeState ? null : 'home'
-    ].filter(Boolean)
+    missingSources
   });
 }
 
@@ -397,6 +463,10 @@ function buildDailyBrief(snapshot, result = buildTopThree(snapshot)) {
   const energy = result.actions.find((action) => action.category === 'energy');
   if (energy) opportunities.push(energy.summary);
   else if (snapshot.energyState?.priceLevel === 'cheap') opportunities.push('Energy is cheap right now, so flexible household work is unusually cheap to clear.');
+
+  if (result.missingSources.length >= 2) {
+    opportunities.push(`Degraded mode: running without ${result.missingSources.join(', ')} signals.`);
+  }
 
   const laterTasks = snapshot.chores.filter((task) => {
     const dueMinutes = minutesUntil(task.dueAt);
@@ -426,6 +496,7 @@ module.exports = {
   scheduleConflictCandidates,
   homeAnomalyCandidates,
   energyOpportunityCandidates,
+  degradedModeCandidates,
   buildCandidateSet,
   applySuppression,
   buildTopThree,

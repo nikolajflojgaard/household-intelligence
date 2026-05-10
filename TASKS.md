@@ -71,8 +71,8 @@
 
 ## Phase 8 — trust and product hardening
 
-- [ ] 46. Add missing-signal handling and degraded-mode output
-- [ ] 47. Add recommendation quality fixtures and tests
-- [ ] 48. Add duplicate-signal regression tests
-- [ ] 49. Add explanation quality pass for terse, human output
-- [ ] 50. Write onboarding/setup doc for first beta household
+- [x] 46. Add missing-signal handling and degraded-mode output
+- [x] 47. Add recommendation quality fixtures and tests
+- [x] 48. Add duplicate-signal regression tests
+- [x] 49. Add explanation quality pass for terse, human output
+- [x] 50. Write onboarding/setup doc for first beta household

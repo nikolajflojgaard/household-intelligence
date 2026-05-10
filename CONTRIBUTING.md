@@ -19,3 +19,5 @@ Not before.
 - do not let Telegram or Home Assistant surfaces fork payload shapes
 - every recommendation must be explainable
 - test ranking behavior with fixtures before adding UI
+- degraded mode must be obvious when sources are missing
+- do not hide weak output behind nice formatting

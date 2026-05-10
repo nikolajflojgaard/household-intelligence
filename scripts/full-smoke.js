@@ -27,5 +27,7 @@ if (!telegramText.includes('Top 3 today')) throw new Error('Missing telegram tex
 if (!haPayload.top_actions?.length) throw new Error('Missing HA payload actions');
 if (!rerunText.includes('Top 3 today')) throw new Error('Missing telegram worker output');
 if (!packagePayload.top_actions?.length) throw new Error('Missing HA bridge package');
+if (!Array.isArray(storage.listRuns()) || storage.listRuns().length < 2) throw new Error('Expected persisted runs');
+if (!Array.isArray(storage.listFeedback()) || storage.listFeedback().length < 1) throw new Error('Expected persisted feedback');
 
 console.log('full smoke ok');

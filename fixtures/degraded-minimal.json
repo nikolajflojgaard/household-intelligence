@@ -1,0 +1,22 @@
+{
+  "householdId": "home-1",
+  "generatedAt": "2026-05-10T07:00:00.000Z",
+  "people": [
+    { "id": "nikolaj", "name": "Nikolaj" }
+  ],
+  "tasks": [
+    {
+      "id": "meds",
+      "title": "Refill medicine box",
+      "assigneeId": "nikolaj",
+      "dueAt": "2026-05-10T08:30:00.000Z",
+      "status": "open",
+      "priority": "high",
+      "estimatedMinutes": 5,
+      "category": "maintenance"
+    }
+  ],
+  "preferences": {
+    "focusPersonId": "nikolaj"
+  }
+}

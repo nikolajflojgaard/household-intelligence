@@ -1,0 +1,74 @@
+{
+  "householdId": "home-1",
+  "generatedAt": "2026-05-10T07:00:00.000Z",
+  "people": [
+    { "id": "nikolaj", "name": "Nikolaj" },
+    { "id": "janice", "name": "Janice" }
+  ],
+  "homeAssistant": {
+    "homeMode": "home",
+    "quietHours": { "start": "22:00", "end": "07:00" },
+    "anomalies": [
+      { "id": "garage-open", "type": "door", "title": "Garage left open", "severity": "high", "message": "Garage door has been open for 18 minutes." }
+    ]
+  },
+  "calendar": [
+    {
+      "id": "dropoff",
+      "title": "School dropoff",
+      "ownerId": "nikolaj",
+      "startAt": "2026-05-10T07:45:00.000Z",
+      "endAt": "2026-05-10T08:10:00.000Z",
+      "leaveByAt": "2026-05-10T07:20:00.000Z",
+      "travelMinutes": 20,
+      "location": "School"
+    },
+    {
+      "id": "client-call",
+      "title": "Client call",
+      "ownerId": "nikolaj",
+      "startAt": "2026-05-10T08:00:00.000Z",
+      "endAt": "2026-05-10T09:00:00.000Z",
+      "travelMinutes": 0,
+      "location": "Home office"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "dishwasher",
+      "title": "Empty dishwasher",
+      "assigneeId": "nikolaj",
+      "dueAt": "2026-05-10T06:00:00.000Z",
+      "status": "open",
+      "priority": "high",
+      "estimatedMinutes": 10,
+      "category": "chores"
+    },
+    {
+      "id": "trash",
+      "title": "Take trash out",
+      "assigneeId": "janice",
+      "dueAt": "2026-05-10T09:00:00.000Z",
+      "status": "open",
+      "priority": "normal",
+      "estimatedMinutes": 5,
+      "category": "chores"
+    }
+  ],
+  "weather": {
+    "condition": "rain later",
+    "temperatureC": 13,
+    "rainRisk": 0.8,
+    "windKph": 20
+  },
+  "energy": {
+    "solarWatts": 1800,
+    "homeLoadWatts": 700,
+    "priceLevel": "cheap",
+    "cheapUntil": "2026-05-10T10:00:00.000Z",
+    "expensiveFrom": "2026-05-10T17:00:00.000Z"
+  },
+  "preferences": {
+    "focusPersonId": "nikolaj"
+  }
+}
