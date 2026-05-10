@@ -6,6 +6,5 @@ node_modules/
 *.sqlite-wal
 coverage/
 dist/
-state-demo/
-state-smoke/
 state/
+state-*/
