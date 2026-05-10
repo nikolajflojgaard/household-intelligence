@@ -67,7 +67,9 @@ household-intelligence/
       first-beta-household.md
     architecture.md
     contracts.md
+    live-home-assistant.md
     mvp.md
+    next-phase.md
     product.md
     scoring.md
   scripts/
@@ -101,7 +103,7 @@ Already in place:
 
 Not built yet:
 
-- live Home Assistant/calendar/task integrations
+- live calendar integration
 - deeper learning from feedback beyond dismissal suppression
 - real scheduler wiring
 - real Telegram bot plumbing
@@ -181,6 +183,12 @@ npm run demo
 
 ```bash
 npm test
+```
+
+### Run live Home Assistant smoke check
+
+```bash
+npm run smoke:ha
 ```
 
 ### Run output quality checks

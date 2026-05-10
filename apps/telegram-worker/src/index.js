@@ -1,16 +1,17 @@
 const path = require('path');
-const { buildSnapshotFromSources, loadSampleSources } = require('../../../packages/adapters/src');
+const { buildSnapshotFromSources, loadSampleSources, loadSources } = require('../../../packages/adapters/src');
 const { buildTopThree, buildDailyBrief } = require('../../../packages/engine/src');
 const { renderTelegramBrief } = require('../../../packages/briefs/src');
 const { createStorage } = require('../../../packages/storage/src');
 const { createFeedbackEvent } = require('../../../packages/contracts/src');
 
-function runDailyBrief(sources = loadSampleSources(), options = {}) {
+async function runDailyBrief(sources = null, options = {}) {
   const storage = createStorage(options.storageDir || path.join(process.cwd(), 'state'));
-  const snapshot = buildSnapshotFromSources(sources);
+  const resolvedSources = sources || (options.useLive ? await loadSources({ mode: 'ha', useLive: true }) : loadSampleSources());
+  const snapshot = buildSnapshotFromSources(resolvedSources);
   const result = buildTopThree(snapshot, { dismissalState: storage.buildDismissalState() });
   const brief = buildDailyBrief(snapshot, result);
-  storage.saveRun({ snapshot, result, brief, createdAt: new Date().toISOString() });
+  storage.saveRun({ snapshot, result, brief, createdAt: new Date().toISOString(), surface: 'telegram' });
   return renderTelegramBrief(brief);
 }
 

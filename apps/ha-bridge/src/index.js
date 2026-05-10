@@ -1,12 +1,13 @@
 const path = require('path');
-const { buildSnapshotFromSources, loadSampleSources } = require('../../../packages/adapters/src');
+const { buildSnapshotFromSources, loadSampleSources, loadSources } = require('../../../packages/adapters/src');
 const { buildTopThree, buildDailyBrief } = require('../../../packages/engine/src');
 const { renderHomeAssistantPayload } = require('../../../packages/briefs/src');
 const { createStorage } = require('../../../packages/storage/src');
 
-function buildHomeAssistantPackage(sources = loadSampleSources(), options = {}) {
+async function buildHomeAssistantPackage(sources = null, options = {}) {
   const storage = createStorage(options.storageDir || path.join(process.cwd(), 'state'));
-  const snapshot = buildSnapshotFromSources(sources);
+  const resolvedSources = sources || (options.useLive ? await loadSources({ mode: 'ha', useLive: true }) : loadSampleSources());
+  const snapshot = buildSnapshotFromSources(resolvedSources);
   const result = buildTopThree(snapshot, { dismissalState: storage.buildDismissalState() });
   const brief = buildDailyBrief(snapshot, result);
   const payload = renderHomeAssistantPayload(brief);

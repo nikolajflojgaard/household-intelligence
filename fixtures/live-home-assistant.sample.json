@@ -1,0 +1,13 @@
+{
+  "note": "Example shape only. Real live HA mode fetches directly from the REST API.",
+  "entities": {
+    "householdChores": "sensor.household_chores_next_3_tasks",
+    "focusChores": "sensor.household_chores_nikolaj_next_3_tasks_2",
+    "weather": "weather.forecast_hjem",
+    "solarPower": "sensor.solax_ac_power_3",
+    "homeLoad": "sensor.solax_husforbrug_effekt",
+    "solarToday": "sensor.solax_yield_today_4",
+    "occupancy": "input_select.house_mode",
+    "anomalies": ["binary_sensor.frontdoor_contact"]
+  }
+}

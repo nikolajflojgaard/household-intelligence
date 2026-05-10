@@ -1,4 +1,6 @@
 const { createInputSnapshot } = require('../../contracts/src');
+const { loadRuntimeConfig } = require('./config');
+const { loadHomeAssistantSources } = require('./home-assistant');
 
 function ensureArray(value) {
   return Array.isArray(value) ? value : [];
@@ -87,6 +89,14 @@ function buildSnapshotFromSources({ householdId, generatedAt, people = [], homeA
   });
 }
 
+async function loadSources(configOverrides = {}) {
+  const config = loadRuntimeConfig(configOverrides);
+  if (config.mode === 'ha' || config.ha.useLive) {
+    return loadHomeAssistantSources(config);
+  }
+  return loadSampleSources();
+}
+
 function loadSampleSources() {
   const generatedAt = new Date().toISOString();
   return {
@@ -172,5 +182,8 @@ module.exports = {
   normalizeWeather,
   normalizeEnergy,
   buildSnapshotFromSources,
-  loadSampleSources
+  loadSampleSources,
+  loadSources,
+  loadRuntimeConfig,
+  loadHomeAssistantSources
 };
