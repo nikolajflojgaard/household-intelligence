@@ -18,19 +18,19 @@
 
 ## Phase 2 — normalized inputs
 
-- [ ] 11. Build Home Assistant adapter shape and sample fixture loader
-- [ ] 12. Build calendar adapter shape and sample fixture loader
-- [ ] 13. Build chores/tasks adapter shape and sample fixture loader
-- [ ] 14. Add weather input normalization
-- [ ] 15. Add energy/solar/load normalization
-- [ ] 16. Create snapshot builder that merges all normalized sources
+- [x] 11. Build Home Assistant adapter shape and sample fixture loader
+- [x] 12. Build calendar adapter shape and sample fixture loader
+- [x] 13. Build chores/tasks adapter shape and sample fixture loader
+- [x] 14. Add weather input normalization
+- [x] 15. Add energy/solar/load normalization
+- [x] 16. Create snapshot builder that merges all normalized sources
 
 ## Phase 3 — candidate generation
 
-- [ ] 17. Generate candidates from overdue chores
-- [ ] 18. Generate candidates from due-today chores
-- [ ] 19. Generate candidates from leave-by calendar pressure
-- [ ] 20. Generate candidates from direct schedule conflicts
+- [x] 17. Generate candidates from overdue chores
+- [x] 18. Generate candidates from due-today chores
+- [x] 19. Generate candidates from leave-by calendar pressure
+- [x] 20. Generate candidates from direct schedule conflicts
 - [ ] 21. Generate candidates from occupancy/home anomalies
 - [ ] 22. Generate candidates from energy opportunity windows
 
@@ -45,11 +45,11 @@
 
 ## Phase 5 — brief generation
 
-- [ ] 29. Build daily brief composer from ranked actions
-- [ ] 30. Add dedicated Nikolaj/person-specific task extraction
-- [ ] 31. Add risks/opportunities/can-wait sections
+- [x] 29. Build daily brief composer from ranked actions
+- [x] 30. Add dedicated Nikolaj/person-specific task extraction
+- [x] 31. Add risks/opportunities/can-wait sections
 - [ ] 32. Build plain JSON renderer
-- [ ] 33. Build Telegram text renderer
+- [x] 33. Build Telegram text renderer
 - [ ] 34. Build Home Assistant payload renderer
 
 ## Phase 6 — persistence and feedback

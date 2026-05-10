@@ -82,15 +82,17 @@ Already in place:
 - package manifests
 - product / architecture / scoring / MVP docs
 - contract definitions and validation helpers
+- sample source fixtures and normalized snapshot builder
+- first candidate generators for overdue tasks, due-today tasks, leave-by pressure, and schedule conflicts
+- first brief composer and Telegram text renderer
 - backlog with 50 implementation tasks
-- placeholder app/package entrypoints
 
 Not built yet:
 
-- live adapters
-- actual scoring engine
+- live Home Assistant/calendar/task integrations
+- deeper weighted ranking and suppression memory
 - storage
-- Telegram integration
+- Telegram feedback handling
 - Home Assistant publisher
 
 ## Architecture principles
