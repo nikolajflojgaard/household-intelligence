@@ -25,6 +25,11 @@ function loadRuntimeConfig(overrides = {}) {
     mode: overrides.mode || process.env.HOUSEHOLD_INTELLIGENCE_MODE || 'sample',
     householdId: overrides.householdId || process.env.HOUSEHOLD_INTELLIGENCE_HOUSEHOLD_ID || 'home-1',
     focusPersonId: overrides.focusPersonId || process.env.HOUSEHOLD_INTELLIGENCE_FOCUS_PERSON_ID || 'nikolaj',
+    calendar: {
+      enabled: overrides.calendarEnabled != null ? overrides.calendarEnabled : envBool('HOUSEHOLD_INTELLIGENCE_CALENDAR_ENABLED', false),
+      icsUrl: overrides.calendarIcsUrl || process.env.HOUSEHOLD_INTELLIGENCE_CALENDAR_ICS_URL || null,
+      icsPath: overrides.calendarIcsPath || process.env.HOUSEHOLD_INTELLIGENCE_CALENDAR_ICS_PATH || null
+    },
     ha: {
       baseUrl: overrides.baseUrl || process.env.HOUSEHOLD_INTELLIGENCE_HA_BASE_URL || process.env.HOMEASSISTANT_BASE_URL || 'http://192.168.0.241:8123',
       token,

@@ -67,10 +67,12 @@ household-intelligence/
       first-beta-household.md
     architecture.md
     contracts.md
+    live-calendar.md
     live-home-assistant.md
     mvp.md
     next-phase.md
     product.md
+    runtime-config.md
     scoring.md
   scripts/
     contract-smoke.js
@@ -103,7 +105,7 @@ Already in place:
 
 Not built yet:
 
-- live calendar integration
+- richer calendar semantics (attendees, travel, leave-by inference)
 - deeper learning from feedback beyond dismissal suppression
 - real scheduler wiring
 - real Telegram bot plumbing
@@ -189,6 +191,12 @@ npm test
 
 ```bash
 npm run smoke:ha
+```
+
+### Run calendar smoke check
+
+```bash
+npm run smoke:calendar
 ```
 
 ### Run output quality checks
