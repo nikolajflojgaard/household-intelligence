@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev": "echo 'wire app-specific dev scripts here'",
-    "test": "node scripts/contract-smoke.js > /tmp/household-intelligence-contract-smoke.json && node scripts/full-smoke.js && node scripts/quality-fixtures.js && node scripts/explanation-regression.js && node scripts/calendar-smoke.js && node scripts/telegram-smoke.js && node scripts/ha-publish-smoke.js",
+    "test": "node scripts/contract-smoke.js > /tmp/household-intelligence-contract-smoke.json && node scripts/full-smoke.js && node scripts/quality-fixtures.js && node scripts/explanation-regression.js && node scripts/calendar-smoke.js && node scripts/telegram-smoke.js && node scripts/telegram-command-smoke.js && node scripts/ha-publish-smoke.js",
     "lint": "echo 'wire lint here'",
     "demo": "node scripts/demo-run.js",
     "demo:ha": "HOUSEHOLD_INTELLIGENCE_MODE=ha HOUSEHOLD_INTELLIGENCE_USE_REAL_HA=1 node scripts/demo-run.js",
@@ -18,6 +18,7 @@
     "smoke:ha": "HOUSEHOLD_INTELLIGENCE_MODE=ha HOUSEHOLD_INTELLIGENCE_USE_REAL_HA=1 node scripts/live-ha-smoke.js",
     "smoke:calendar": "node scripts/calendar-smoke.js",
     "smoke:telegram": "node scripts/telegram-smoke.js",
+    "smoke:telegram-commands": "node scripts/telegram-command-smoke.js",
     "smoke:ha-publish": "node scripts/ha-publish-smoke.js",
     "test:quality": "node scripts/quality-fixtures.js && node scripts/explanation-regression.js"
   }
