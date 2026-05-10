@@ -21,7 +21,8 @@ async function main() {
   storage.saveRun({ snapshot, result, brief, createdAt: new Date().toISOString() });
   recordFeedback({ recommendationId: result.actions[0].id, event: 'dismissed', actorId: 'nikolaj', storageDir: stateDir });
   const rerunText = await runDailyBrief(sources, { storageDir: stateDir });
-  const packagePayload = await buildHomeAssistantPackage(sources, { storageDir: stateDir });
+  const packageBuild = await buildHomeAssistantPackage(sources, { storageDir: stateDir });
+  const packagePayload = packageBuild.payload;
 
   if (!result.actions.length) throw new Error('Expected actions');
   if (!telegramText.includes('Top 3 today')) throw new Error('Missing telegram text');

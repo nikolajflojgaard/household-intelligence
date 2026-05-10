@@ -67,8 +67,10 @@ household-intelligence/
       first-beta-household.md
     architecture.md
     contracts.md
+    ha-publish-setup-notes.md
     live-calendar.md
     live-home-assistant.md
+    live-home-assistant-publish.md
     live-telegram.md
     mvp.md
     next-phase.md
@@ -111,7 +113,7 @@ Not built yet:
 - deeper learning from feedback beyond dismissal suppression
 - real scheduler wiring
 - inbound Telegram bot handling and command routing
-- real Home Assistant publish API calls
+- inbound Telegram command/feedback handling
 
 ## Architecture principles
 
@@ -207,6 +209,12 @@ npm run smoke:calendar
 npm run smoke:telegram
 ```
 
+### Run Home Assistant publish-back smoke check
+
+```bash
+npm run smoke:ha-publish
+```
+
 ### Run output quality checks
 
 ```bash
@@ -224,11 +232,11 @@ node -e "const c=require('./packages/contracts/src'); console.log(c.createInputS
 
 The right next build order is:
 
-1. real Home Assistant publish wiring
-2. inbound Telegram command/feedback handling
-3. richer feedback learning
-4. proper sqlite runtime
-5. multi-household hardening
+1. inbound Telegram command/feedback handling
+2. richer feedback learning
+3. proper sqlite runtime
+4. multi-household hardening
+5. richer calendar semantics
 
 ## Why this could be sellable
 

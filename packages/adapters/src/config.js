@@ -33,6 +33,10 @@ function loadRuntimeConfig(overrides = {}) {
     ha: {
       baseUrl: overrides.baseUrl || process.env.HOUSEHOLD_INTELLIGENCE_HA_BASE_URL || process.env.HOMEASSISTANT_BASE_URL || 'http://192.168.0.241:8123',
       token,
+      publishEnabled: overrides.publishEnabled != null ? overrides.publishEnabled : envBool('HOUSEHOLD_INTELLIGENCE_HA_PUBLISH_ENABLED', false),
+      publishDryRun: overrides.publishDryRun != null ? overrides.publishDryRun : envBool('HOUSEHOLD_INTELLIGENCE_HA_PUBLISH_DRY_RUN', true),
+      publishEntryId: overrides.publishEntryId || process.env.HOUSEHOLD_INTELLIGENCE_HA_PUBLISH_ENTRY_ID || null,
+      publishSource: overrides.publishSource || process.env.HOUSEHOLD_INTELLIGENCE_HA_PUBLISH_SOURCE || 'household-intelligence',
       weatherEntity: overrides.weatherEntity || process.env.HOUSEHOLD_INTELLIGENCE_HA_WEATHER_ENTITY || 'weather.forecast_hjem',
       householdChoresEntity: overrides.householdChoresEntity || process.env.HOUSEHOLD_INTELLIGENCE_HA_HOUSEHOLD_CHORES_ENTITY || 'sensor.household_chores_next_3_tasks',
       focusChoresEntity: overrides.focusChoresEntity || process.env.HOUSEHOLD_INTELLIGENCE_HA_FOCUS_CHORES_ENTITY || 'sensor.household_chores_nikolaj_next_3_tasks_2',
