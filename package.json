@@ -1,0 +1,17 @@
+{
+  "name": "household-intelligence",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local-first household decision engine",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "echo 'wire app-specific dev scripts here'",
+    "test": "node scripts/contract-smoke.js > /tmp/household-intelligence-contract-smoke.json && echo 'contract smoke ok'",
+    "lint": "echo 'wire lint here'",
+    "demo": "node scripts/demo-run.js",
+    "smoke:contracts": "node scripts/contract-smoke.js"
+  }
+}
