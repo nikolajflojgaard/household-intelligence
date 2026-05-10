@@ -32,6 +32,33 @@ function renderTelegramBrief(brief) {
   return lines.join('\n');
 }
 
+function renderJson(data) {
+  return JSON.stringify(data, null, 2);
+}
+
+function renderHomeAssistantPayload(brief) {
+  return {
+    generated_at: brief.generatedAt,
+    top_actions: brief.topActions.map((action) => ({
+      id: action.id,
+      title: action.title,
+      summary: action.summary,
+      score: action.score,
+      urgency: action.urgency,
+      owner_id: action.ownerId || null,
+      why_now: action.whyNow,
+      reasons: action.reasons,
+      actions: action.actions || []
+    })),
+    nikolaj_tasks: brief.nikolajTasks.map((action) => action.title),
+    risks: brief.risks,
+    opportunities: brief.opportunities,
+    can_wait: brief.canWait
+  };
+}
+
 module.exports = {
-  renderTelegramBrief
+  renderTelegramBrief,
+  renderJson,
+  renderHomeAssistantPayload
 };

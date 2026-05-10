@@ -83,17 +83,20 @@ Already in place:
 - product / architecture / scoring / MVP docs
 - contract definitions and validation helpers
 - sample source fixtures and normalized snapshot builder
-- first candidate generators for overdue tasks, due-today tasks, leave-by pressure, and schedule conflicts
-- first brief composer and Telegram text renderer
+- candidate generators for tasks, leave-by pressure, schedule conflicts, home anomalies, and energy opportunities
+- weighted scoring, confidence modifier, dedupe, and quiet-hours suppression
+- brief composers for Telegram, JSON, and Home Assistant payloads
+- JSON-backed run/feedback persistence with SQLite schema ready
+- demo flows for dashboard, Telegram worker, and Home Assistant package generation
 - backlog with 50 implementation tasks
 
 Not built yet:
 
 - live Home Assistant/calendar/task integrations
-- deeper weighted ranking and suppression memory
-- storage
-- Telegram feedback handling
-- Home Assistant publisher
+- deeper learning from feedback beyond dismissal suppression
+- real scheduler wiring
+- real Telegram bot plumbing
+- real Home Assistant publish API calls
 
 ## Architecture principles
 
@@ -157,11 +160,17 @@ Good output:
 
 ## Local development
 
-### Run demo placeholder
+### Run the full demo
 
 ```bash
 cd household-intelligence
 npm run demo
+```
+
+### Run smoke validation
+
+```bash
+npm test
 ```
 
 ### Validate contracts quickly

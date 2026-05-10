@@ -9,9 +9,10 @@
   ],
   "scripts": {
     "dev": "echo 'wire app-specific dev scripts here'",
-    "test": "node scripts/contract-smoke.js > /tmp/household-intelligence-contract-smoke.json && echo 'contract smoke ok'",
+    "test": "node scripts/contract-smoke.js > /tmp/household-intelligence-contract-smoke.json && node scripts/full-smoke.js",
     "lint": "echo 'wire lint here'",
     "demo": "node scripts/demo-run.js",
-    "smoke:contracts": "node scripts/contract-smoke.js"
+    "smoke:contracts": "node scripts/contract-smoke.js",
+    "smoke:full": "node scripts/full-smoke.js"
   }
 }
